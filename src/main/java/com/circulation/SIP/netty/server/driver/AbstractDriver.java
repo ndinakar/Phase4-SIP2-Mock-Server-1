@@ -1,0 +1,104 @@
+/* 
+ * Copyright (C) 2020 Ceridwen Limited
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.circulation.SIP.netty.server.driver;
+
+import java.util.Date;
+
+import com.circulation.SIP.messages.ACSStatus;
+import com.circulation.SIP.messages.SCStatus;
+import com.circulation.SIP.netty.server.driver.operation.BlockPatronOperation;
+import com.circulation.SIP.netty.server.driver.operation.CheckInOperation;
+import com.circulation.SIP.netty.server.driver.operation.CheckOutOperation;
+import com.circulation.SIP.netty.server.driver.operation.EndPatronSessionOperation;
+import com.circulation.SIP.netty.server.driver.operation.FeePaidOperation;
+import com.circulation.SIP.netty.server.driver.operation.HoldOperation;
+import com.circulation.SIP.netty.server.driver.operation.ItemInformationOperation;
+import com.circulation.SIP.netty.server.driver.operation.ItemStatusUpdateOperation;
+import com.circulation.SIP.netty.server.driver.operation.LoginOperation;
+import com.circulation.SIP.netty.server.driver.operation.PatronEnableOperation;
+import com.circulation.SIP.netty.server.driver.operation.PatronInformationOperation;
+import com.circulation.SIP.netty.server.driver.operation.PatronStatusOperation;
+import com.circulation.SIP.netty.server.driver.operation.RenewAllOperation;
+import com.circulation.SIP.netty.server.driver.operation.RenewOperation;
+import com.circulation.SIP.netty.server.driver.operation.RequestResendOperation;
+import com.circulation.SIP.netty.server.driver.operation.StatusOperation;
+import com.circulation.SIP.types.enumerations.ProtocolVersion;
+
+public abstract class AbstractDriver implements Driver {
+
+	@Override
+	public final ACSStatus Status(SCStatus msg) {
+      ACSStatus response = new ACSStatus(); 
+      if (this instanceof BlockPatronOperation) {
+      	response.getSupportedMessages().setBlockPatron(true);
+      }
+      if (this instanceof CheckInOperation) {
+	      response.getSupportedMessages().setCheckIn(true);
+      }
+      if (this instanceof CheckOutOperation) {
+	      response.getSupportedMessages().setCheckOut(true);
+		  }
+      if (this instanceof EndPatronSessionOperation) {
+	        response.getSupportedMessages().setEndPatronSession(true);
+		  }
+      if (this instanceof FeePaidOperation) {
+	        response.getSupportedMessages().setFeePaid(true);
+	    }
+      if (this instanceof HoldOperation) {
+	        response.getSupportedMessages().setHold(true);
+	    }
+		  if (this instanceof ItemInformationOperation) {
+	        response.getSupportedMessages().setItemInformation(true);
+    	}
+		  if (this instanceof ItemStatusUpdateOperation) {
+	        response.getSupportedMessages().setItemStatusUpdate(true);
+	    }
+	    if (this instanceof LoginOperation) {
+	        response.getSupportedMessages().setLogin(true);
+	    }
+	    if (this instanceof PatronEnableOperation) {
+	        response.getSupportedMessages().setPatronEnable(true);
+	    }
+	    if (this instanceof PatronInformationOperation) {
+	        response.getSupportedMessages().setPatronInformation(true);
+	    }
+	    if (this instanceof PatronStatusOperation) {
+	        response.getSupportedMessages().setPatronStatusRequest(true);
+	    }
+	    if (this instanceof RenewOperation) {
+	        response.getSupportedMessages().setRenew(true);
+	    }
+	    if (this instanceof RenewAllOperation) {
+	        response.getSupportedMessages().setRenewAll(true);
+	    }
+	    if (this instanceof RequestResendOperation) {
+	        response.getSupportedMessages().setRequestScAcsResend(true);
+	    }
+	    if (this instanceof StatusOperation) {
+	        response.getSupportedMessages().setScAcsStatus(true);
+    	}
+	    
+	    response.setDateTimeSync(new Date());
+	    response.setProtocolVersion(ProtocolVersion.VERSION_2_00);
+	    response.setRetriesAllowed(999);
+	    response.setTimeoutPeriod(999);
+      response.setOnlineStatus(true);
+		  return this.Status(response, msg);
+	}
+	
+	abstract public ACSStatus Status(ACSStatus status, SCStatus msg);
+}
