@@ -132,6 +132,13 @@
                                 <Built-By>${user.name}</Built-By>
                                 <Build-Date>${maven.build.timestamp}</Build-Date>
                             </manifestEntries>
+
+			 <manifest>
+            <addClasspath>true</addClasspath>
+            <classpathPrefix>lib/</classpathPrefix>
+           <mainClass>com.circulation.SIP.server.SocketServer</mainClass>
+          </manifest>
+
                         </archive>
                     </configuration>
                 </plugin>
