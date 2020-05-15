@@ -4,7 +4,7 @@
 
 
     <groupId>com.ceridwen.circulation</groupId>
-    <artifactId>ceridwen-standard-interchange-protocol-library</artifactId>
+    <artifactId>phase4-scsb-mock-sip-server</artifactId>
     <version>2.9.8</version>
     <packaging>jar</packaging>
 
