@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import com.circulation.SIP.messages.SCResend;
 
 public class MessageBroker {
-    private static Log logger = LogFactory.getLog(MessageBroker.class);
+   // private static Log logger = LogFactory.getLog(MessageBroker.class);
 
     private MessageHandler handler;
     private boolean strictChecksumChecking = false;
@@ -64,22 +64,22 @@ public class MessageBroker {
 
     public String process(String request) {
         try {
-            MessageBroker.logger.debug("Processing message: " + request);
+         //   MessageBroker.logger.debug("Processing message: " + request);
             Message requestMessage = Message.decode(request, null, this.strictChecksumChecking);
             if (requestMessage instanceof ACSResend) {
-                MessageBroker.logger.info("Resending response");
+             //   MessageBroker.logger.info("Resending response");
             } else {
                 Message responseMessage = this.process(requestMessage);
                 this.lastResponse = responseMessage.encode(requestMessage.getSequenceCharacter());
             }
-            MessageBroker.logger.debug("Sending response: " + this.lastResponse);
+           // MessageBroker.logger.debug("Sending response: " + this.lastResponse);
             return this.lastResponse;
         } catch (Exception e) {
-            MessageBroker.logger.warn("Error trying to process message: " + request, e);
+           // MessageBroker.logger.warn("Error trying to process message: " + request, e);
             try {
                 return new SCResend().encode(null); // Do a resend properly
             } catch (Exception e1) {
-                MessageBroker.logger.error("Error creating SCResend message", e1);
+             //   MessageBroker.logger.error("Error creating SCResend message", e1);
                 return "96AZFEF6"; // if all else fails hardcode!
             }
         }
