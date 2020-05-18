@@ -30,7 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class SocketDaemon extends Thread {
-    private static Log logger = LogFactory.getLog(SocketDaemon.class);
+   //  private static Log logger = LogFactory.getLog(SocketDaemon.class);
 
     private String ipaddress;
     private int port;
@@ -51,7 +51,7 @@ public class SocketDaemon extends Thread {
             this.listener = new ServerSocket(this.port,0, InetAddress.getByName(this.ipaddress));
             Socket server;
 
-            SocketDaemon.logger.info("Server daemon listening on port " + this.port);
+           // SocketDaemon.logger.info("Server daemon listening on port " + this.port);
 
             while (this.running) {
                 try {
@@ -63,14 +63,14 @@ public class SocketDaemon extends Thread {
                 }
             }
 
-            SocketDaemon.logger.info("Server daemon shut down complete");
+          //  SocketDaemon.logger.info("Server daemon shut down complete");
         } catch (IOException ioe) {
-            SocketDaemon.logger.fatal("IOException on socket listen", ioe);
+          //  SocketDaemon.logger.fatal("IOException on socket listen", ioe);
         }
     }
 
     public void shutdown() {
-        SocketDaemon.logger.info("Server daemon shutting down");
+       // SocketDaemon.logger.info("Server daemon shutting down");
         this.running = false;
         try {
             this.listener.close();
@@ -82,7 +82,7 @@ public class SocketDaemon extends Thread {
 class ConnectionThread extends Thread {
     private static final String PROP_CHARSET = "com.ceridwen.circulation.SIP.charset";
     private static final String PROP_DEFAULT_CHARSET = "Cp850";    
-    private static Log logger = LogFactory.getLog(ConnectionThread.class);
+  //  private static Log logger = LogFactory.getLog(ConnectionThread.class);
 
     private Socket server;
     private MessageBroker broker;
@@ -99,7 +99,7 @@ class ConnectionThread extends Thread {
     @Override
     public void run() {
         try {
-            ConnectionThread.logger.info("New connection from " + this.server.getInetAddress().toString());
+         //   ConnectionThread.logger.info("New connection from " + this.server.getInetAddress().toString());
             BufferedReader in = new BufferedReader(new InputStreamReader(this.server.getInputStream(), getCharset()));
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(this.server.getOutputStream(), getCharset()));
             String input = in.readLine();
@@ -111,7 +111,7 @@ class ConnectionThread extends Thread {
             } while (input != null);
             this.server.close();
         } catch (IOException ioe) {
-            logger.info("IOException on socket listen: ", ioe);
+          //  logger.info("IOException on socket listen: ", ioe);
         }
     }
 }
