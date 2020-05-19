@@ -23,7 +23,7 @@ import java.util.Properties;
 public class SocketServer {
 
       public static void main(String[] args) throws Exception {
-       SocketDaemon thread = new SocketDaemon("192.168.55.192", 12345, new MessageHandlerDummyImpl());
+       SocketDaemon thread = new SocketDaemon("localhost", 8012, new MessageHandlerDummyImpl());
         thread.start();
       }
 
