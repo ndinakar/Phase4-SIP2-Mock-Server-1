@@ -119,20 +119,33 @@
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>3.0.0-M1</version>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <!-- DO NOT include log4j.properties file in your Jar -->
+                        <excludes>
+                            <exclude>**/log4j.properties</exclude>
+                        </excludes>
+                        <archive>
+                            <manifest>
+                                <!-- Jar file entry point -->
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>lib/</classpathPrefix>
+                                <mainClass>com.circulation.SIP.server.SocketServer</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+<!--
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.2.0</version>
                     <configuration>
                         <archive>
-                            <manifest>
-                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            </manifest>
-                            <manifestEntries>
-                                <Built-By>${user.name}</Built-By>
-                                <Build-Date>${maven.build.timestamp}</Build-Date>
-                            </manifestEntries>
 
 			 <manifest>
             <addClasspath>true</addClasspath>
@@ -142,7 +155,7 @@
 
                         </archive>
                     </configuration>
-                </plugin>
+                </plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
