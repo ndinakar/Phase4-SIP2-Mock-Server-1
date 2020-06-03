@@ -21,9 +21,13 @@ import java.util.Properties;
 
 
 public class SocketServer {
+	
 
       public static void main(String[] args) throws Exception {
-       SocketDaemon thread = new SocketDaemon("localhost", 8012, new MessageHandlerDummyImpl());
+    	  System.out.println("nyply ip "+args[0] + "   " + args[1]);
+          SocketDaemon thread = new SocketDaemon(args[0], Integer.parseInt(args[1]), new MessageHandlerDummyImpl());
+
+      // SocketDaemon thread = new SocketDaemon("192.168.55.192", 8012, new MessageHandlerDummyImpl());
         thread.start();
       }
 
