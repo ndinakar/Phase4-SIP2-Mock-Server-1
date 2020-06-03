@@ -16,19 +16,42 @@
  */
 package com.circulation.SIP.server;
 
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 
 public class SocketServer {
 	
 
-      public static void main(String[] args) throws Exception {
-    	  System.out.println("nyply ip "+args[0] + "   " + args[1]);
-          SocketDaemon thread = new SocketDaemon(args[0], Integer.parseInt(args[1]), new MessageHandlerDummyImpl());
+	
+	public static void main(String[] args) throws Exception {
+	    Properties properties = new Properties();
+	    InputStreamReader in = null;
+	    try {
+	        in = new InputStreamReader(new FileInputStream(args[0]), "UTF-8");
+	        properties.load(in);
+	        String nyplServerIp = properties.getProperty("ils.nypl.sip.server.url");
+		     String nyplServerPost = properties.getProperty("ils.nypl.sip.server.port");
 
-      // SocketDaemon thread = new SocketDaemon("192.168.55.192", 8012, new MessageHandlerDummyImpl());
-        thread.start();
-      }
+		    System.out.println("NYPL IP " + "  " + nyplServerIp + "  "+ "NYPL Host" + "  "+ nyplServerPost  );
+
+		    SocketDaemon thread = new SocketDaemon(nyplServerIp, Integer.parseInt(nyplServerPost), new MessageHandlerDummyImpl());
+		    thread.start();
+
+	    } finally
+	    { if
+	    (null != in)
+	    { try
+	    { in.close();
+	    } catch (IOException ex) {
+	    	}
+	    }
+	    }
+	    }
+
+ 
 
 }
