@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Phase4-SIP-Mock-Server-NYPL
-      run: docker build ./Phase4-SIP-Mock-Server -t NYPL Mock Server
+      run: docker build ./Phase4-SIP-Mock-Server -t NYPL-Mock-Server
