@@ -1,6 +1,6 @@
 #FROM recapscsb/scsb-base:latest
 #FROM phase4-scsb-base:latest
-FROM FROM adoptopenjdk/openjdk11
+FROM adoptopenjdk/openjdk11
 MAINTAINER HTC ReCAP Support "recap-support@htcindia.com"
 
 ARG TAG
