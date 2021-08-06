@@ -1,6 +1,6 @@
 #FROM recapscsb/scsb-base:latest
 #FROM phase4-scsb-base:latest
-FROM adoptopenjdk/openjdk11:jre11u-ubuntu-nightly
+FROM adoptopenjdk/openjdk11
 MAINTAINER HTC ReCAP Support "recap-support@htcindia.com"
 RUN apt-get update && apt-get install -y git
 ARG TAG
