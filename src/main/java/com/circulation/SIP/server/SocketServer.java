@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2020 Ceridwen Limited
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,41 +17,36 @@
 package com.circulation.SIP.server;
 
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 
 public class SocketServer {
-	
 
-	
-	public static void main(String[] args) throws Exception {
-	    Properties properties = new Properties();
-	    InputStreamReader in = null;
-	    try {
-	        in = new InputStreamReader(new FileInputStream(args[0]), "UTF-8");
-	        properties.load(in);
-	        String nyplServerIp = properties.getProperty("ils.nypl.sip.server.url");
-		     String nyplServerPost = properties.getProperty("ils.nypl.sip.server.port");
+    public static void main(String[] args) throws Exception {
+        Properties properties = new Properties();
+        InputStreamReader in = null;
+        try {
+            in = new InputStreamReader(new FileInputStream(args[0]), StandardCharsets.UTF_8);
+            properties.load(in);
+            String mockSipServerIp = properties.getProperty("ils.mock.sip.server.url"); //pre-defined host to run the server
+            String mockSipServerPort = properties.getProperty("ils.mock.sip.server.port");
 
-		    System.out.println("NYPL IP " + "  " + nyplServerIp + "  "+ "NYPL Host" + "  "+ nyplServerPost  );
+            System.out.println("ILS Mock SIP Server IP : " + mockSipServerIp);
+            System.out.println("ILS Mock SIP Server Port : " + mockSipServerPort);
 
-		    SocketDaemon thread = new SocketDaemon(nyplServerIp, Integer.parseInt(nyplServerPost), new MessageHandlerDummyImpl());
-		    thread.start();
-
-	    } finally
-	    { if
-	    (null != in)
-	    { try
-	    { in.close();
-	    } catch (IOException ex) {
-	    	}
-	    }
-	    }
-	    }
-
- 
-
+            SocketDaemon thread = new SocketDaemon(mockSipServerIp, Integer.parseInt(mockSipServerPort), new MessageHandlerDummyImpl());
+            thread.start();
+        } finally {
+            if (null != in) {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
 }
