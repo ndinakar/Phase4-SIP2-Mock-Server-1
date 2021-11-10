@@ -1,6 +1,6 @@
 # SIP2-Mock-Server
 
-3M SIP is an industry standard protocol by 3M to allow automatec check out terminals communicate with library systems.
+  SIP Mock Server is a TCP/IP-based server that can also act as a messaging interface between SIP Mock Server clients. Once connected the server receives SIP2 request messages from the client and using the instance parameters does the required database lookups, processing etc. and returns the appropriate response message. The parameters define how the data for each field in the response message is derived. When Request is placed to SIP2 Mock server it will convert the request to string and while passing the response it will again convert string to the response 
 
 ## Software Required
 
