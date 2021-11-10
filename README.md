@@ -16,11 +16,16 @@
       - spring.datasource.username=
       - spring.datasource.password=
       - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect 
+      - ils.mock.sip.server.url= ${Docker IP of SIP Mock Server}
+      - ils.mock.sip.server.port=9101
       
 2. Update the below Property Values in scsb_properteis_t table.
 
-     - ils.mock.sip.server.url= <Docker IP of SIP Mock Server >
-     - ils.mock.sip.server.port=9101
+     - UPDATE `recap`.`scsb_properties_t` SET `P_VALUE`='${Docker IP of SIP Mock Server}' WHERE `P_KEY`='ils.server' AND `INSTITUTION_CODE`='CUL';
+     - UPDATE `recap`.`scsb_properties_t` SET `P_VALUE`='9101' WHERE `P_KEY`='ils.server.port' AND `INSTITUTION_CODE`='CUL';
+     - UPDATE `recap`.`scsb_properties_t` SET `P_VALUE`='recap' WHERE `P_KEY`='ils.server.operator.user.id' AND `INSTITUTION_CODE`='CUL';
+     - UPDATE `recap`.`scsb_properties_t` SET `P_VALUE`='recap' WHERE `P_KEY`='ils.server.operator.password' AND `INSTITUTION_CODE`='CUL';
+     - UPDATE `recap`.`scsb_properties_t` SET `P_VALUE`='location' WHERE `P_KEY`='ils.server.operator.location' AND `INSTITUTION_CODE`='CUL'; 
 
 ## Build
 
