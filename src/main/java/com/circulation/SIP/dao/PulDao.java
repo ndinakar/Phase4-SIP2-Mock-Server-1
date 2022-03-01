@@ -5,6 +5,7 @@ import com.circulation.SIP.types.enumerations.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import java.sql.*;
+import com.circulation.SIP.server.SocketServer;
 /**
  * Created by giris on 3/3/20.
  */
@@ -13,18 +14,10 @@ public class PulDao {
     public static Connection connection = null;
 
     private static Log logger = LogFactory.getLog(PulDao.class);
-    public static Connection getConnection() throws Exception {
-        if (connection == null) {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(
-                    "", "", "");
-        }
-        return connection;
-    }
 
     public boolean validateLogin(String userName, String password) {
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement("select username from login where username = ? and password = ?");
+            PreparedStatement preparedStatement = SocketServer.getConnection().prepareStatement("select username from login where username = ? and password = ?");
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, password);
             logger.error("username = "+userName);
@@ -38,7 +31,7 @@ public class PulDao {
     public PatronInformationResponse findPatronByPatronId(String patronIdentifier) {
         PatronInformationResponse patronInformationResponse = new PatronInformationResponse();
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement("select * from patron where patron_identifier = ?");
+            PreparedStatement preparedStatement = SocketServer.getConnection().prepareStatement("select * from patron where patron_identifier = ?");
             preparedStatement.setString(1, patronIdentifier);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -66,7 +59,7 @@ public class PulDao {
     public ItemInformationResponse findItemByItemId(String itemIdentifier) {
         ItemInformationResponse itemInformationResponse = new ItemInformationResponse();
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement("select * from item where item_identifier = ?");
+            PreparedStatement preparedStatement = SocketServer.getConnection().prepareStatement("select * from item where item_identifier = ?");
             preparedStatement.setString(1, itemIdentifier);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -94,7 +87,7 @@ public class PulDao {
     public boolean checkoutItem(CheckOut checkOut){
         try{
             String sql = "Insert into check_out (transaction_id, transaction_date, patron_identifier, item_identifier,due_date)values (?,?,?,?,?)";
-            PreparedStatement preparedStatement = getConnection().prepareStatement(sql);
+            PreparedStatement preparedStatement = SocketServer.getConnection().prepareStatement(sql);
             preparedStatement.setString(1, ""+Math.random());
             preparedStatement.setDate(2, new Date(new java.util.Date().getTime()));
             preparedStatement.setString(3, ""+checkOut.getPatronIdentifier());
@@ -110,7 +103,7 @@ public class PulDao {
 
     public boolean checkInItem(String itemIdentifier){
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement("select transaction_id from check_out where item_identifier = ?");
+            PreparedStatement preparedStatement = SocketServer.getConnection().prepareStatement("select transaction_id from check_out where item_identifier = ?");
             preparedStatement.setString(1, itemIdentifier);
             return preparedStatement.executeQuery().next();
         } catch (Exception e) {
@@ -120,7 +113,7 @@ public class PulDao {
 
     public Integer findBibByItemId(String itemIdentifier){
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement("select bib_id from bib where item_identifier = ?");
+            PreparedStatement preparedStatement = SocketServer.getConnection().prepareStatement("select bib_id from bib where item_identifier = ?");
             preparedStatement.setString(1, itemIdentifier);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
@@ -135,7 +128,7 @@ public class PulDao {
     public Integer createBib(Bib bib){
         try{
             String sql = "Insert into bib(patron_identifier, item_identifier, title_identifier)values (?,?,?)";
-            PreparedStatement preparedStatement = getConnection().prepareStatement(sql);
+            PreparedStatement preparedStatement = SocketServer.getConnection().prepareStatement(sql);
             preparedStatement.setString(1, ""+bib.getPatronIdentifier());
             preparedStatement.setString(2, ""+bib.getItemIdentifier());
             preparedStatement.setString(3, ""+bib.getTitleIdentifier());
@@ -150,3 +143,4 @@ public class PulDao {
         return null;
     }
 }
+

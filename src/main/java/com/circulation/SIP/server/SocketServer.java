@@ -21,10 +21,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-
+import java.sql.*;
 
 public class SocketServer {
-
+    public static Connection connection = null;
+    public static String ClassName ;
+    public static String UserName;
+    public static String Password;
+    public static String Url;
     public static void main(String[] args) throws Exception {
         Properties properties = new Properties();
         InputStreamReader in = null;
@@ -33,6 +37,10 @@ public class SocketServer {
             properties.load(in);
             String mockSipServerIp = properties.getProperty("ils.mock.sip.server.url"); //pre-defined host to run the server
             String mockSipServerPort = properties.getProperty("ils.mock.sip.server.port");
+            ClassName = properties.getProperty("spring.datasource.driver-class-name");
+            UserName = properties.getProperty("spring.datasource.username");
+            Password = properties.getProperty("spring.datasource.password");
+            Url = properties.getProperty("spring.datasource.url");
 
             System.out.println("ILS Mock SIP Server IP : " + mockSipServerIp);
             System.out.println("ILS Mock SIP Server Port : " + mockSipServerPort);
@@ -49,4 +57,15 @@ public class SocketServer {
             }
         }
     }
+
+    public static Connection getConnection() throws Exception {
+        if (connection == null) {
+            Class.forName(ClassName);
+            connection = DriverManager.getConnection(Url,UserName,Password);
+        }
+        return connection;
+    }
+
+
+
 }
