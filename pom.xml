@@ -15,8 +15,8 @@
     </description>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.scm.id>git</project.scm.id>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>EEE, d MMMM, yyyy - HH:mm:ss zzz</maven.build.timestamp.format>
